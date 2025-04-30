@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rust Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: auto;
+            background-color: #374151;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 8px 12px;
+            position: absolute;
+            z-index: 1;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-left: 10px;
+            white-space: nowrap;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+        }
+
+        .tooltip .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 100%;
+            margin-top: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent #374151 transparent transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-4xl font-bold">Rust Recycling Calculator</h1>
+            <button id="themeToggle" class="p-2 rounded-lg bg-gray-700 hover:bg-gray-600">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+        
+        <div class="max-w-3xl mx-auto bg-gray-800 rounded-lg shadow-lg p-6">
+            <div class="flex justify-between mb-4">
+                <button id="clearAll" class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition duration-200">
+                    Clear All
+                </button>
+                <button id="showHistory" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition duration-200">
+                    History
+                </button>
+            </div>
+
+            <form id="calculatorForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Road Signs -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2 w-[200px]">
+                            <img src="{{ url_for('static', filename='road_sign.png') }}" alt="Road Sign" class="w-6 h-6 flex-shrink-0">
+                            <label class="block whitespace-nowrap">Road Signs</label>
+                        </div>
+                        <div class="tooltip">
+                            <i class="fas fa-info-circle text-gray-400"></i>
+                            <span class="tooltip-text">Recycles to: 6 Scrap, 2 HQM</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="number" name="signs" class="flex-1 px-3 py-2 bg-gray-700 rounded" min="0" value="0">
+                        <div class="flex gap-1 flex-shrink-0">
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="1">+1</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="5">+5</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="10">+10</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metal Pipes -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2 w-[200px]">
+                            <img src="{{ url_for('static', filename='metal_pipe.png') }}" alt="Metal Pipe" class="w-6 h-6 flex-shrink-0">
+                            <label class="block whitespace-nowrap">Metal Pipes</label>
+                        </div>
+                        <div class="tooltip">
+                            <i class="fas fa-info-circle text-gray-400"></i>
+                            <span class="tooltip-text">Recycles to: 6 Scrap, 2 HQM</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="number" name="pipes" class="flex-1 px-3 py-2 bg-gray-700 rounded" min="0" value="0">
+                        <div class="flex gap-1 flex-shrink-0">
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="1">+1</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="5">+5</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="10">+10</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metal Blades -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2 w-[200px]">
+                            <img src="{{ url_for('static', filename='metal_blade.png') }}" alt="Metal Blade" class="w-6 h-6 flex-shrink-0">
+                            <label class="block whitespace-nowrap">Metal Blades</label>
+                        </div>
+                        <div class="tooltip">
+                            <i class="fas fa-info-circle text-gray-400"></i>
+                            <span class="tooltip-text">Recycles to: 2 Scrap, 18 Metal Fragments</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="number" name="blades" class="flex-1 px-3 py-2 bg-gray-700 rounded" min="0" value="0">
+                        <div class="flex gap-1 flex-shrink-0">
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="1">+1</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="5">+5</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="10">+10</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metal Springs -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2 w-[200px]">
+                            <img src="{{ url_for('static', filename='metal_spring.png') }}" alt="Metal Spring" class="w-6 h-6 flex-shrink-0">
+                            <label class="block whitespace-nowrap">Metal Springs</label>
+                        </div>
+                        <div class="tooltip">
+                            <i class="fas fa-info-circle text-gray-400"></i>
+                            <span class="tooltip-text">Recycles to: 12 Scrap, 2 HQM</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="number" name="springs" class="flex-1 px-3 py-2 bg-gray-700 rounded" min="0" value="0">
+                        <div class="flex gap-1 flex-shrink-0">
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="1">+1</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="5">+5</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="10">+10</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SMG Bodies -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2 w-[200px]">
+                            <img src="{{ url_for('static', filename='smg_body.png') }}" alt="SMG Body" class="w-6 h-6 flex-shrink-0">
+                            <label class="block whitespace-nowrap">SMG Bodies</label>
+                        </div>
+                        <div class="tooltip">
+                            <i class="fas fa-info-circle text-gray-400"></i>
+                            <span class="tooltip-text">Recycles to: 18 Scrap, 2 HQM</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="number" name="smg" class="flex-1 px-3 py-2 bg-gray-700 rounded" min="0" value="0">
+                        <div class="flex gap-1 flex-shrink-0">
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="1">+1</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="5">+5</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="10">+10</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SAR Bodies -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2 w-[200px]">
+                            <img src="{{ url_for('static', filename='sar_body.png') }}" alt="SAR Body" class="w-6 h-6 flex-shrink-0">
+                            <label class="block whitespace-nowrap">SAR Bodies</label>
+                        </div>
+                        <div class="tooltip">
+                            <i class="fas fa-info-circle text-gray-400"></i>
+                            <span class="tooltip-text">Recycles to: 18 Scrap, 2 HQM, 90 Metal Fragments</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="number" name="sar" class="flex-1 px-3 py-2 bg-gray-700 rounded" min="0" value="0">
+                        <div class="flex gap-1 flex-shrink-0">
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="1">+1</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="5">+5</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="10">+10</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rifle Bodies -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2 w-[200px]">
+                            <img src="{{ url_for('static', filename='rifle_body.png') }}" alt="Rifle Body" class="w-6 h-6 flex-shrink-0">
+                            <label class="block whitespace-nowrap">Rifle Bodies</label>
+                        </div>
+                        <div class="tooltip">
+                            <i class="fas fa-info-circle text-gray-400"></i>
+                            <span class="tooltip-text">Recycles to: 30 Scrap, 2 HQM</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="number" name="rifle" class="flex-1 px-3 py-2 bg-gray-700 rounded" min="0" value="0">
+                        <div class="flex gap-1 flex-shrink-0">
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="1">+1</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="5">+5</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="10">+10</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sheet Metal -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2 w-[200px]">
+                            <img src="{{ url_for('static', filename='sheet_metal.png') }}" alt="Sheet Metal" class="w-6 h-6 flex-shrink-0">
+                            <label class="block whitespace-nowrap">Sheet Metal</label>
+                        </div>
+                        <div class="tooltip">
+                            <i class="fas fa-info-circle text-gray-400"></i>
+                            <span class="tooltip-text">Recycles to: 9 Scrap, 2 HQM, 120 Metal Fragments</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="number" name="sheet" class="flex-1 px-3 py-2 bg-gray-700 rounded" min="0" value="0">
+                        <div class="flex gap-1 flex-shrink-0">
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="1">+1</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="5">+5</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="10">+10</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tech Trash -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2 w-[200px]">
+                            <img src="{{ url_for('static', filename='tech_trash.png') }}" alt="Tech Trash" class="w-6 h-6 flex-shrink-0">
+                            <label class="block whitespace-nowrap">Tech Trash</label>
+                        </div>
+                        <div class="tooltip">
+                            <i class="fas fa-info-circle text-gray-400"></i>
+                            <span class="tooltip-text">Recycles to: 24 Scrap, 2 HQM</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="number" name="tech" class="flex-1 px-3 py-2 bg-gray-700 rounded" min="0" value="0">
+                        <div class="flex gap-1 flex-shrink-0">
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="1">+1</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="5">+5</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="10">+10</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gears -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2 w-[200px]">
+                            <img src="{{ url_for('static', filename='gears.png') }}" alt="Gears" class="w-6 h-6 flex-shrink-0">
+                            <label class="block whitespace-nowrap">Gears</label>
+                        </div>
+                        <div class="tooltip">
+                            <i class="fas fa-info-circle text-gray-400"></i>
+                            <span class="tooltip-text">Recycles to: 12 Scrap, 15 Metal Fragments</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="number" name="gears" class="flex-1 px-3 py-2 bg-gray-700 rounded" min="0" value="0">
+                        <div class="flex gap-1 flex-shrink-0">
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="1">+1</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="5">+5</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="10">+10</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2 mt-4">
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200">
+                        Calculate
+                    </button>
+                </div>
+            </form>
+            
+            <div id="results" class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                <div class="bg-gray-700 p-4 rounded flex flex-col items-center justify-center min-h-[120px]">
+                    <div class="flex items-center justify-center mb-3">
+                        <img src="{{ url_for('static', filename='scrap.png') }}" alt="Scrap" class="w-6 h-6 mr-2">
+                        <h3 class="text-xl font-semibold">Scrap</h3>
+                    </div>
+                    <p id="scrapResult" class="text-3xl font-bold text-yellow-400">0</p>
+                </div>
+                <div class="bg-gray-700 p-4 rounded flex flex-col items-center justify-center min-h-[120px]">
+                    <div class="flex items-center justify-center mb-3">
+                        <img src="{{ url_for('static', filename='hqm.png') }}" alt="HQM" class="w-6 h-6 mr-2">
+                        <h3 class="text-xl font-semibold">HQM</h3>
+                    </div>
+                    <p id="hqmResult" class="text-3xl font-bold text-blue-400">0</p>
+                </div>
+                <div class="bg-gray-700 p-4 rounded flex flex-col items-center justify-center min-h-[120px]">
+                    <div class="flex items-center justify-center mb-3">
+                        <img src="{{ url_for('static', filename='metal.png') }}" alt="Metal" class="w-6 h-6 mr-2">
+                        <h3 class="text-xl font-semibold">Metal Fragments</h3>
+                    </div>
+                    <p id="metalResult" class="text-3xl font-bold text-gray-400">0</p>
+                </div>
+            </div>
+
+            <!-- History Modal -->
+            <div id="historyModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+                <div class="bg-gray-800 p-6 rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold">Calculation History</h2>
+                        <button id="closeHistory" class="text-gray-400 hover:text-white">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div id="historyList" class="space-y-4">
+                        <!-- History items will be added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const mainContainer = document.querySelector('.container');
+        const calculatorContainer = document.querySelector('.max-w-3xl');
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            body.classList.add('bg-white', 'text-gray-900');
+            body.classList.remove('bg-gray-900', 'text-white');
+            calculatorContainer.classList.add('bg-gray-100');
+            calculatorContainer.classList.remove('bg-gray-800');
+            themeToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            const isDark = body.classList.contains('bg-gray-900');
+            
+            if (isDark) {
+                // Switch to light theme
+                body.classList.remove('bg-gray-900', 'text-white');
+                body.classList.add('bg-white', 'text-gray-900');
+                calculatorContainer.classList.remove('bg-gray-800');
+                calculatorContainer.classList.add('bg-gray-100');
+                themeToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else {
+                // Switch to dark theme
+                body.classList.remove('bg-white', 'text-gray-900');
+                body.classList.add('bg-gray-900', 'text-white');
+                calculatorContainer.classList.remove('bg-gray-100');
+                calculatorContainer.classList.add('bg-gray-800');
+                themeToggle.querySelector('i').classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Quick Add Buttons
+        document.querySelectorAll('.quick-add').forEach(button => {
+            button.addEventListener('click', () => {
+                const input = button.closest('.space-y-2').querySelector('input[type="number"]');
+                const currentValue = parseInt(input.value) || 0;
+                const addValue = parseInt(button.dataset.value);
+                input.value = currentValue + addValue;
+                
+                // Trigger input event to update any listeners
+                input.dispatchEvent(new Event('input'));
+            });
+        });
+
+        // Clear All Button
+        document.getElementById('clearAll').addEventListener('click', () => {
+            document.querySelectorAll('input[type="number"]').forEach(input => {
+                input.value = '0';
+            });
+            document.getElementById('scrapResult').textContent = '0';
+            document.getElementById('hqmResult').textContent = '0';
+            document.getElementById('metalResult').textContent = '0';
+        });
+
+        // History
+        let calculationHistory = [];
+        const historyModal = document.getElementById('historyModal');
+        const showHistoryBtn = document.getElementById('showHistory');
+        const closeHistoryBtn = document.getElementById('closeHistory');
+        const historyList = document.getElementById('historyList');
+
+        showHistoryBtn.addEventListener('click', () => {
+            historyModal.classList.remove('hidden');
+        });
+
+        closeHistoryBtn.addEventListener('click', () => {
+            historyModal.classList.add('hidden');
+        });
+
+        // Close modal when clicking outside
+        historyModal.addEventListener('click', (e) => {
+            if (e.target === historyModal) {
+                historyModal.classList.add('hidden');
+            }
+        });
+
+        // Form submission
+        document.getElementById('calculatorForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                data[key] = parseInt(value) || 0;
+            }
+            
+            try {
+                const response = await fetch('/calculate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('scrapResult').textContent = result.scrap;
+                    document.getElementById('hqmResult').textContent = result.hqm;
+                    document.getElementById('metalResult').textContent = result.metal;
+
+                    // Add to history
+                    const historyItem = {
+                        timestamp: new Date().toLocaleString(),
+                        inputs: data,
+                        results: result
+                    };
+                    calculationHistory.unshift(historyItem);
+                    if (calculationHistory.length > 10) calculationHistory.pop();
+                    updateHistoryDisplay();
+                } else {
+                    alert(result.error || 'An error occurred');
+                }
+            } catch (error) {
+                alert('An error occurred while calculating');
+            }
+        });
+
+        function updateHistoryDisplay() {
+            historyList.innerHTML = calculationHistory.map(item => `
+                <div class="bg-gray-700 p-4 rounded">
+                    <div class="text-sm text-gray-400">${item.timestamp}</div>
+                    <div class="grid grid-cols-3 gap-4 mt-2">
+                        <div>Scrap: ${item.results.scrap}</div>
+                        <div>HQM: ${item.results.hqm}</div>
+                        <div>Metal: ${item.results.metal}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html> 
