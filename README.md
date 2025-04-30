@@ -1,57 +1,50 @@
-# Rust Recycling Calculator Web App
+# Rust Recycling Calculator
 
-A web-based calculator for determining the resources you'll receive from recycling various components in the game Rust.
+A web-based calculator for Rust game that helps players calculate the resources they'll get from recycling various components.
 
 ## Features
 
-- Calculate recycling yields for multiple components
-- Modern, responsive web interface
-- Real-time calculations
-- Support for all major components:
-  - Road Signs
-  - Metal Pipes
-  - Metal Blades
-  - Metal Springs
-  - SMG Bodies
-  - SAR Bodies
-  - Rifle Bodies
-  - Sheet Metal
-  - Tech Trash
+- Calculate scrap, HQM, metal fragments, and cloth from recycling components
+- Quick add buttons for easy quantity input
+- Dark/light theme toggle
+- Calculation history
+- Responsive design
+- Tooltips showing recycling values
 
-## Installation
+## Components
 
-1. Make sure you have Python 3.7+ installed on your system.
+- Road Signs (6 Scrap, 2 HQM)
+- Metal Pipes (6 Scrap, 2 HQM)
+- Metal Blades (2 Scrap, 18 Metal)
+- Metal Springs (12 Scrap, 2 HQM)
+- SMG Bodies (18 Scrap, 2 HQM)
+- SAR Bodies (18 Scrap, 2 HQM, 90 Metal)
+- Rifle Bodies (30 Scrap, 2 HQM)
+- Sheet Metal (9 Scrap, 2 HQM, 120 Metal)
+- Tech Trash (24 Scrap, 2 HQM)
+- Gears (12 Scrap, 15 Metal)
+- Tarp (60 Cloth)
+- Sewing Kit (48 Cloth)
+- Rope (18 Cloth)
 
-2. Install the required dependencies:
-```bash
-pip install -r requirements.txt
-```
+## Setup
 
-## Running the Application
+1. Clone the repository
+2. Install Python dependencies:
+   ```
+   pip install flask
+   ```
+3. Run the application:
+   ```
+   python app.py
+   ```
+4. Open your browser and navigate to `http://localhost:5000`
 
-1. Start the Flask server:
-```bash
-python app.py
-```
+## Technologies Used
 
-2. Open your web browser and navigate to:
-```
-http://localhost:5000
-```
-
-## Usage
-
-1. Enter the quantity of each component you want to recycle
-2. Click the "Calculate" button
-3. View the total amount of Scrap, HQM (High Quality Metal), and Metal Fragments you'll receive
-
-## Development
-
-The application is built with:
-- Backend: Flask (Python)
-- Frontend: HTML, TailwindCSS, and JavaScript
-- No database required - all calculations are done in real-time
-
-## Contributing
-
-Feel free to submit issues and enhancement requests!
+- Python
+- Flask
+- HTML/CSS
+- JavaScript
+- Tailwind CSS
+- Font Awesome

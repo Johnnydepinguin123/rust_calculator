@@ -13,7 +13,10 @@ RECYCLING_VALUES = {
     "rifle.body": {"scrap": 30, "hqm": 2, "metal": 0},
     "sheet.metal": {"scrap": 9, "hqm": 2, "metal": 120},
     "tech.trash": {"scrap": 24, "hqm": 2, "metal": 0},
-    "gears": {"scrap": 12, "hqm": 0, "metal": 15}
+    "gears": {"scrap": 12, "hqm": 0, "metal": 15},
+    "tarp": {"scrap": 0, "hqm": 0, "metal": 0, "cloth": 60},
+    "sewing.kit": {"scrap": 0, "hqm": 0, "metal": 0, "cloth": 48},
+    "rope": {"scrap": 0, "hqm": 0, "metal": 0, "cloth": 18}
 }
 
 @app.route('/')
@@ -36,18 +39,23 @@ def calculate():
             'rifle.body': int(data.get('rifle', 0)),
             'sheet.metal': int(data.get('sheet', 0)),
             'tech.trash': int(data.get('tech', 0)),
-            'gears': int(data.get('gears', 0))
+            'gears': int(data.get('gears', 0)),
+            'tarp': int(data.get('tarp', 0)),
+            'sewing.kit': int(data.get('sewing_kit', 0)),
+            'rope': int(data.get('rope', 0))
         }
         
         # Calculate totals
         total_scrap = sum(components[item] * RECYCLING_VALUES[item]["scrap"] for item in components)
         total_hqm = sum(components[item] * RECYCLING_VALUES[item]["hqm"] for item in components)
         total_metal = sum(components[item] * RECYCLING_VALUES[item]["metal"] for item in components)
+        total_cloth = sum(components[item] * RECYCLING_VALUES[item].get("cloth", 0) for item in components)
         
         return jsonify({
             'scrap': total_scrap,
             'hqm': total_hqm,
-            'metal': total_metal
+            'metal': total_metal,
+            'cloth': total_cloth
         })
         
     except (ValueError, KeyError) as e:
