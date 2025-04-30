@@ -44,15 +44,34 @@
             border-style: solid;
             border-color: transparent #374151 transparent transparent;
         }
+
+        /* Mode Toggle Styles */
+        #mode60, #mode40 {
+            color: #9CA3AF;
+        }
+
+        #mode60.active, #mode40.active {
+            color: white;
+            background-color: #3B82F6;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white min-h-screen">
     <div class="container mx-auto px-4 py-8">
         <div class="flex justify-between items-center mb-8">
             <h1 class="text-4xl font-bold">Rust Recycling Calculator</h1>
-            <button id="themeToggle" class="p-2 rounded-lg bg-gray-700 hover:bg-gray-600">
-                <i class="fas fa-moon"></i>
-            </button>
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm">Recycling Rate:</span>
+                    <div class="flex bg-gray-600 rounded-lg p-1">
+                        <button id="mode60" class="px-3 py-1 rounded-md text-sm font-medium transition-all duration-200">60%</button>
+                        <button id="mode40" class="px-3 py-1 rounded-md text-sm font-medium transition-all duration-200">40%</button>
+                    </div>
+                </div>
+                <button id="themeToggle" class="p-2 rounded-lg bg-gray-700 hover:bg-gray-600">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
         </div>
         
         <div class="max-w-3xl mx-auto bg-gray-800 rounded-lg shadow-lg p-6">
@@ -75,7 +94,7 @@
                         </div>
                         <div class="tooltip">
                             <i class="fas fa-info-circle text-gray-400"></i>
-                            <span class="tooltip-text">Recycles to: 6 Scrap, 2 HQM</span>
+                            <span class="tooltip-text">Recycles to:<br>60%: 6 Scrap, 2 HQM<br>40%: 4 Scrap, 1 HQM</span>
                         </div>
                     </div>
                     <div class="flex gap-2">
@@ -97,7 +116,7 @@
                         </div>
                         <div class="tooltip">
                             <i class="fas fa-info-circle text-gray-400"></i>
-                            <span class="tooltip-text">Recycles to: 6 Scrap, 2 HQM</span>
+                            <span class="tooltip-text">Recycles to:<br>60%: 6 Scrap, 2 HQM<br>40%: 4 Scrap, 1 HQM</span>
                         </div>
                     </div>
                     <div class="flex gap-2">
@@ -119,7 +138,7 @@
                         </div>
                         <div class="tooltip">
                             <i class="fas fa-info-circle text-gray-400"></i>
-                            <span class="tooltip-text">Recycles to: 2 Scrap, 18 Metal Fragments</span>
+                            <span class="tooltip-text">Recycles to:<br>60%: 2 Scrap, 18 Metal<br>40%: 1 Scrap, 12 Metal</span>
                         </div>
                     </div>
                     <div class="flex gap-2">
@@ -141,7 +160,7 @@
                         </div>
                         <div class="tooltip">
                             <i class="fas fa-info-circle text-gray-400"></i>
-                            <span class="tooltip-text">Recycles to: 12 Scrap, 2 HQM</span>
+                            <span class="tooltip-text">Recycles to:<br>60%: 12 Scrap, 2 HQM<br>40%: 8 Scrap, 1 HQM</span>
                         </div>
                     </div>
                     <div class="flex gap-2">
@@ -163,7 +182,7 @@
                         </div>
                         <div class="tooltip">
                             <i class="fas fa-info-circle text-gray-400"></i>
-                            <span class="tooltip-text">Recycles to: 18 Scrap, 2 HQM</span>
+                            <span class="tooltip-text">Recycles to:<br>60%: 18 Scrap, 2 HQM<br>40%: 12 Scrap, 1 HQM</span>
                         </div>
                     </div>
                     <div class="flex gap-2">
@@ -185,7 +204,7 @@
                         </div>
                         <div class="tooltip">
                             <i class="fas fa-info-circle text-gray-400"></i>
-                            <span class="tooltip-text">Recycles to: 18 Scrap, 2 HQM, 90 Metal Fragments</span>
+                            <span class="tooltip-text">Recycles to:<br>60%: 18 Scrap, 2 HQM, 90 Metal<br>40%: 12 Scrap, 1 HQM, 60 Metal</span>
                         </div>
                     </div>
                     <div class="flex gap-2">
@@ -207,7 +226,7 @@
                         </div>
                         <div class="tooltip">
                             <i class="fas fa-info-circle text-gray-400"></i>
-                            <span class="tooltip-text">Recycles to: 30 Scrap, 2 HQM</span>
+                            <span class="tooltip-text">Recycles to:<br>60%: 30 Scrap, 2 HQM<br>40%: 20 Scrap, 1 HQM</span>
                         </div>
                     </div>
                     <div class="flex gap-2">
@@ -229,7 +248,7 @@
                         </div>
                         <div class="tooltip">
                             <i class="fas fa-info-circle text-gray-400"></i>
-                            <span class="tooltip-text">Recycles to: 9 Scrap, 2 HQM, 120 Metal Fragments</span>
+                            <span class="tooltip-text">Recycles to:<br>60%: 9 Scrap, 2 HQM, 120 Metal<br>40%: 6 Scrap, 1 HQM, 80 Metal</span>
                         </div>
                     </div>
                     <div class="flex gap-2">
@@ -251,7 +270,7 @@
                         </div>
                         <div class="tooltip">
                             <i class="fas fa-info-circle text-gray-400"></i>
-                            <span class="tooltip-text">Recycles to: 24 Scrap, 2 HQM</span>
+                            <span class="tooltip-text">Recycles to:<br>60%: 24 Scrap, 2 HQM<br>40%: 16 Scrap, 1 HQM</span>
                         </div>
                     </div>
                     <div class="flex gap-2">
@@ -273,7 +292,7 @@
                         </div>
                         <div class="tooltip">
                             <i class="fas fa-info-circle text-gray-400"></i>
-                            <span class="tooltip-text">Recycles to: 12 Scrap, 15 Metal Fragments</span>
+                            <span class="tooltip-text">Recycles to:<br>60%: 12 Scrap, 15 Metal<br>40%: 8 Scrap, 10 Metal</span>
                         </div>
                     </div>
                     <div class="flex gap-2">
@@ -295,7 +314,7 @@
                         </div>
                         <div class="tooltip">
                             <i class="fas fa-info-circle text-gray-400"></i>
-                            <span class="tooltip-text">Recycles to: 60 Cloth</span>
+                            <span class="tooltip-text">Recycles to:<br>60%: 60 Cloth<br>40%: 40 Cloth</span>
                         </div>
                     </div>
                     <div class="flex gap-2">
@@ -317,7 +336,7 @@
                         </div>
                         <div class="tooltip">
                             <i class="fas fa-info-circle text-gray-400"></i>
-                            <span class="tooltip-text">Recycles to: 48 Cloth</span>
+                            <span class="tooltip-text">Recycles to:<br>60%: 48 Cloth<br>40%: 32 Cloth</span>
                         </div>
                     </div>
                     <div class="flex gap-2">
@@ -339,7 +358,7 @@
                         </div>
                         <div class="tooltip">
                             <i class="fas fa-info-circle text-gray-400"></i>
-                            <span class="tooltip-text">Recycles to: 18 Cloth</span>
+                            <span class="tooltip-text">Recycles to:<br>60%: 18 Cloth<br>40%: 12 Cloth</span>
                         </div>
                     </div>
                     <div class="flex gap-2">
@@ -413,6 +432,34 @@
         const body = document.body;
         const mainContainer = document.querySelector('.container');
         const calculatorContainer = document.querySelector('.max-w-3xl');
+        
+        // Mode Toggle
+        const mode60 = document.getElementById('mode60');
+        const mode40 = document.getElementById('mode40');
+        let currentMode = '60'; // Default to 60% mode
+
+        // Check for saved mode preference
+        const savedMode = localStorage.getItem('recyclingMode');
+        if (savedMode === '40') {
+            mode40.classList.add('active');
+            currentMode = '40';
+        } else {
+            mode60.classList.add('active');
+        }
+        
+        mode60.addEventListener('click', () => {
+            mode60.classList.add('active');
+            mode40.classList.remove('active');
+            currentMode = '60';
+            localStorage.setItem('recyclingMode', currentMode);
+        });
+        
+        mode40.addEventListener('click', () => {
+            mode40.classList.add('active');
+            mode60.classList.remove('active');
+            currentMode = '40';
+            localStorage.setItem('recyclingMode', currentMode);
+        });
         
         // Check for saved theme preference
         const savedTheme = localStorage.getItem('theme');
@@ -495,6 +542,9 @@
             for (let [key, value] of formData.entries()) {
                 data[key] = parseInt(value) || 0;
             }
+            
+            // Add current mode to the request
+            data.mode = currentMode;
             
             try {
                 const response = await fetch('/calculate', {
