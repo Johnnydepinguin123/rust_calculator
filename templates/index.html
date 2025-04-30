@@ -286,6 +286,72 @@
                     </div>
                 </div>
 
+                <!-- Tarp -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2 w-[200px]">
+                            <img src="{{ url_for('static', filename='tarp.png') }}" alt="Tarp" class="w-6 h-6 flex-shrink-0">
+                            <label class="block whitespace-nowrap">Tarp</label>
+                        </div>
+                        <div class="tooltip">
+                            <i class="fas fa-info-circle text-gray-400"></i>
+                            <span class="tooltip-text">Recycles to: 60 Cloth</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="number" name="tarp" class="flex-1 px-3 py-2 bg-gray-700 rounded" min="0" value="0">
+                        <div class="flex gap-1 flex-shrink-0">
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="1">+1</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="5">+5</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="10">+10</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sewing Kit -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2 w-[200px]">
+                            <img src="{{ url_for('static', filename='sewing_kit.png') }}" alt="Sewing Kit" class="w-6 h-6 flex-shrink-0">
+                            <label class="block whitespace-nowrap">Sewing Kit</label>
+                        </div>
+                        <div class="tooltip">
+                            <i class="fas fa-info-circle text-gray-400"></i>
+                            <span class="tooltip-text">Recycles to: 48 Cloth</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="number" name="sewing_kit" class="flex-1 px-3 py-2 bg-gray-700 rounded" min="0" value="0">
+                        <div class="flex gap-1 flex-shrink-0">
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="1">+1</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="5">+5</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="10">+10</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rope -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2 w-[200px]">
+                            <img src="{{ url_for('static', filename='rope.png') }}" alt="Rope" class="w-6 h-6 flex-shrink-0">
+                            <label class="block whitespace-nowrap">Rope</label>
+                        </div>
+                        <div class="tooltip">
+                            <i class="fas fa-info-circle text-gray-400"></i>
+                            <span class="tooltip-text">Recycles to: 18 Cloth</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="number" name="rope" class="flex-1 px-3 py-2 bg-gray-700 rounded" min="0" value="0">
+                        <div class="flex gap-1 flex-shrink-0">
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="1">+1</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="5">+5</button>
+                            <button type="button" class="quick-add px-2 py-1 bg-gray-600 hover:bg-gray-500 rounded" data-value="10">+10</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="md:col-span-2 mt-4">
                     <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200">
                         Calculate
@@ -293,7 +359,7 @@
                 </div>
             </form>
             
-            <div id="results" class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+            <div id="results" class="mt-8 grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
                 <div class="bg-gray-700 p-4 rounded flex flex-col items-center justify-center min-h-[120px]">
                     <div class="flex items-center justify-center mb-3">
                         <img src="{{ url_for('static', filename='scrap.png') }}" alt="Scrap" class="w-6 h-6 mr-2">
@@ -314,6 +380,13 @@
                         <h3 class="text-xl font-semibold">Metal Fragments</h3>
                     </div>
                     <p id="metalResult" class="text-3xl font-bold text-gray-400">0</p>
+                </div>
+                <div class="bg-gray-700 p-4 rounded flex flex-col items-center justify-center min-h-[120px]">
+                    <div class="flex items-center justify-center mb-3">
+                        <img src="{{ url_for('static', filename='cloth.png') }}" alt="Cloth" class="w-6 h-6 mr-2">
+                        <h3 class="text-xl font-semibold">Cloth</h3>
+                    </div>
+                    <p id="clothResult" class="text-3xl font-bold text-green-400">0</p>
                 </div>
             </div>
 
@@ -352,24 +425,18 @@
         }
         
         themeToggle.addEventListener('click', () => {
-            const isDark = body.classList.contains('bg-gray-900');
+            body.classList.toggle('bg-gray-900');
+            body.classList.toggle('bg-gray-100');
+            body.classList.toggle('text-white');
+            body.classList.toggle('text-gray-900');
             
-            if (isDark) {
-                // Switch to light theme
-                body.classList.remove('bg-gray-900', 'text-white');
-                body.classList.add('bg-white', 'text-gray-900');
-                calculatorContainer.classList.remove('bg-gray-800');
-                calculatorContainer.classList.add('bg-gray-100');
-                themeToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
-                localStorage.setItem('theme', 'light');
+            const icon = themeToggle.querySelector('i');
+            if (icon.classList.contains('fa-moon')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
             } else {
-                // Switch to dark theme
-                body.classList.remove('bg-white', 'text-gray-900');
-                body.classList.add('bg-gray-900', 'text-white');
-                calculatorContainer.classList.remove('bg-gray-100');
-                calculatorContainer.classList.add('bg-gray-800');
-                themeToggle.querySelector('i').classList.replace('fa-sun', 'fa-moon');
-                localStorage.setItem('theme', 'dark');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
             }
         });
 
@@ -394,6 +461,7 @@
             document.getElementById('scrapResult').textContent = '0';
             document.getElementById('hqmResult').textContent = '0';
             document.getElementById('metalResult').textContent = '0';
+            document.getElementById('clothResult').textContent = '0';
         });
 
         // History
@@ -443,6 +511,7 @@
                     document.getElementById('scrapResult').textContent = result.scrap;
                     document.getElementById('hqmResult').textContent = result.hqm;
                     document.getElementById('metalResult').textContent = result.metal;
+                    document.getElementById('clothResult').textContent = result.cloth;
 
                     // Add to history
                     const historyItem = {
@@ -465,10 +534,11 @@
             historyList.innerHTML = calculationHistory.map(item => `
                 <div class="bg-gray-700 p-4 rounded">
                     <div class="text-sm text-gray-400">${item.timestamp}</div>
-                    <div class="grid grid-cols-3 gap-4 mt-2">
+                    <div class="grid grid-cols-4 gap-4 mt-2">
                         <div>Scrap: ${item.results.scrap}</div>
                         <div>HQM: ${item.results.hqm}</div>
                         <div>Metal: ${item.results.metal}</div>
+                        <div>Cloth: ${item.results.cloth}</div>
                     </div>
                 </div>
             `).join('');
